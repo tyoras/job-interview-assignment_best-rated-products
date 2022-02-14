@@ -1,2 +1,25 @@
-*.class
-*.log
+# Simple Build Tool
+# http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
+
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+.bsp/
+.history
+.cache
+.lib/
+logs
+*.swp
+
+# Intellij
+.idea/
+
+# Metals
+.metals/
+.bloop/
+project/metals.sbt
+project/project/
+.vscode
+
