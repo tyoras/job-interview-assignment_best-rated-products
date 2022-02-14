@@ -9,6 +9,17 @@ object Dependencies {
     }
   }
 
+  case object io {
+    case object circe {
+      val circeVersion    = "0.14.1"
+      val `circe-core`    = dep("core")
+      val `circe-generic` = dep("generic")
+      val `circe-parser`  = dep("parser")
+
+      private def dep(artifact: String) = "io.circe" %% s"circe-$artifact" % circeVersion
+    }
+  }
+
   case object org {
     case object scalatest {
       val scalatest = "org.scalatest" %% "scalatest" % "3.2.10"
@@ -21,11 +32,14 @@ object Dependencies {
 
   lazy val coreDeps = Seq(
     co.fs2.`fs2-io`,
+    io.circe.`circe-core`,
+    io.circe.`circe-generic`,
     org.typelevel.`cats-effect`
   )
 
   lazy val coreTestDeps = Seq(
-    org.scalatest.scalatest
+    org.scalatest.scalatest,
+    io.circe.`circe-parser`
   ).map(_ % Test)
 
   lazy val apiDeps = Seq(
