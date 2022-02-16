@@ -34,12 +34,12 @@ object Dependencies {
     co.fs2.`fs2-io`,
     io.circe.`circe-core`,
     io.circe.`circe-generic`,
+    io.circe.`circe-parser`,
     org.typelevel.`cats-effect`
   )
 
   lazy val coreTestDeps = Seq(
-    org.scalatest.scalatest,
-    io.circe.`circe-parser`
+    org.scalatest.scalatest
   ).map(_ % Test)
 
   lazy val apiDeps = Seq(
