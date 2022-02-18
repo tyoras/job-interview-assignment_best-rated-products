@@ -15,12 +15,12 @@ case class Review(
   unixReviewTime: Long
 )
 
-
-/**
- * Represent a product rating
- * @param asin ID of the rated product
- * @param averageRating Average rating of the product
- */
+/** Represent a product rating
+  * @param asin
+  *   ID of the rated product
+  * @param averageRating
+  *   Average rating of the product
+  */
 case class RatedProduct(
   asin: Asin,
   averageRating: Double

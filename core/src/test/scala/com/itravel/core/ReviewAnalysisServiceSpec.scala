@@ -6,9 +6,10 @@ import com.itravel.core.ReviewAnalysisServiceSpec.reviews
 import com.itravel.core.model.{RatedProduct, Review}
 import com.itravel.core.reader.ReviewReader
 import fs2.Stream
-import fs2.io.file.Path
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+
+import java.nio.file.Path
 
 class ReviewAnalysisServiceSpec extends AnyFlatSpec with Matchers {
   import cats.effect.unsafe.implicits.global
@@ -54,5 +55,5 @@ class ReviewAnalysisServiceSpec extends AnyFlatSpec with Matchers {
 }
 
 object ReviewAnalysisServiceSpec {
-  val reviews: Stream[IO, Review] = ReviewReader.streamFromJsonFile[IO](Path(severalValidReviews))
+  val reviews: Stream[IO, Review] = ReviewReader.fromJsonFile[IO](Path.of(severalValidReviews)).stream
 }

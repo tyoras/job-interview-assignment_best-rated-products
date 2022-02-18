@@ -6,18 +6,26 @@ import fs2.{Pipe, Stream}
 import io.circe.Decoder
 import io.circe.parser.decode
 
+import java.nio.file.{Path => JPath}
+
+trait ReviewReader[F[_]] {
+  def stream: Stream[F, Review]
+}
+
 object ReviewReader {
 
-  /** Stream reviews from a newline delimited JSON file with each line containing one review formatted as a JSON object
+  /** Read reviews from a newline delimited JSON file with each line containing one review formatted as a JSON object
     * @param path
     *   Path of the newline delimited json file
     * @tparam F
     *   effect
     * @return
-    *   Stream of review
+    *   Json file review reader
     */
-  def streamFromJsonFile[F[_] : Files](path: Path): Stream[F, Review] =
-    readLinesFromFile(path).through(jsonDecode[F, Review])
+  def fromJsonFile[F[_] : Files](path: JPath): ReviewReader[F] = new ReviewReader[F] {
+    override def stream: Stream[F, Review] =
+      readLinesFromFile(Path.fromNioPath(path)).through(jsonDecode[F, Review])
+  }
 
   private def jsonDecode[F[_], A : Decoder]: Pipe[F, String, A] =
     _.map(decode[A](_).toOption).unNone

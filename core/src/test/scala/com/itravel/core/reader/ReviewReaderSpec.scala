@@ -1,24 +1,25 @@
 package com.itravel.core.reader
 
 import cats.effect.IO
-import com.itravel.core.model.Review
 import com.itravel.core._
-import fs2.io.file.Path
+import com.itravel.core.model.Review
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+
+import java.nio.file.Path
 
 class ReviewReaderSpec extends AnyFlatSpec with Matchers {
   import cats.effect.unsafe.implicits.global
 
   "Streaming from json file" should "work with a file containing one valid review" in {
     val expected = List(Review("B000Q75VCO", 2d, 1475261866))
-    val read     = ReviewReader.streamFromJsonFile[IO](Path(oneValidJsonReview)).compile.toList.unsafeRunSync()
+    val read     = ReviewReader.fromJsonFile[IO](Path.of(oneValidJsonReview)).stream.compile.toList.unsafeRunSync()
 
     (read should contain).theSameElementsInOrderAs(expected)
   }
 
   it should "return an empty stream with a file containing only invalid review" in {
-    val read = ReviewReader.streamFromJsonFile[IO](Path(invalidJsonReview)).compile.toList.unsafeRunSync()
+    val read = ReviewReader.fromJsonFile[IO](Path.of(invalidJsonReview)).stream.compile.toList.unsafeRunSync()
 
     read shouldBe empty
   }
@@ -40,7 +41,7 @@ class ReviewReaderSpec extends AnyFlatSpec with Matchers {
       Review("B000654P8C", 2d, 1522847344),
       Review("B000JQ0JNS", 5d, 1476369800)
     )
-    val read = ReviewReader.streamFromJsonFile[IO](Path(severalValidReviews)).compile.toList.unsafeRunSync()
+    val read = ReviewReader.fromJsonFile[IO](Path.of(severalValidReviews)).stream.compile.toList.unsafeRunSync()
 
     (read should contain).theSameElementsInOrderAs(expected)
   }
@@ -61,7 +62,7 @@ class ReviewReaderSpec extends AnyFlatSpec with Matchers {
       Review("B000654P8C", 2d, 1522847344),
       Review("B000JQ0JNS", 5d, 1476369800)
     )
-    val read = ReviewReader.streamFromJsonFile[IO](Path(severalValidOneInvalidReviews)).compile.toList.unsafeRunSync()
+    val read = ReviewReader.fromJsonFile[IO](Path.of(severalValidOneInvalidReviews)).stream.compile.toList.unsafeRunSync()
 
     (read should contain).theSameElementsInOrderAs(expected)
   }
