@@ -25,7 +25,7 @@ object Server extends IOApp {
     reviewAnalysisService  = ReviewAnalysisService[F]
     reviewAnalysisEndpoint = ReviewAnalysisEndpoint.fromJsonFile(reviewAnalysisService, path)
     httpApp = Router("amazon" -> reviewAnalysisEndpoint.routes).orNotFound
-      .pipe(Logger.httpApp(logHeaders = true, logBody = true))
+      .pipe(Logger.httpApp(logHeaders = false, logBody = false))
 
     _ <- BlazeServerBuilder[F].bindHttp().withHttpApp(httpApp).resource.void
   } yield ()

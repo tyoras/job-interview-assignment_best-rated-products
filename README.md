@@ -57,6 +57,7 @@ Tests can be run with this command `sbt test`
 
 ### Usage
 The webservice application can be run from sbt using this command from the repository root folder.
+
 Note : The path to the file is configurable by passing it as an argument.
 ```shell
 sbt "api/run data_sample/video_game_reviews_example.json"

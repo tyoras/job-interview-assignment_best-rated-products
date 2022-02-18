@@ -7,6 +7,7 @@ ThisBuild / version      := "0.1.0-SNAPSHOT"
 ThisBuild / scalacOptions ++= Seq(
   "-Yrangepos",
   "-Xlint",
+  "-Xlint:-byname-implicit",
   "-deprecation",
   "-feature",
   "-unchecked",
